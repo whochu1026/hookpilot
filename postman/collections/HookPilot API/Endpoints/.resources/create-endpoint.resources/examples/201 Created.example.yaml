@@ -1,0 +1,25 @@
+$kind: http-example
+name: 201 Created
+order: 1000
+request:
+  url: '{{base_url}}/projects/{{project_id}}/endpoints'
+  method: POST
+response:
+  statusCode: 201
+  statusText: Created
+  headers:
+    - key: Content-Type
+      value: application/json
+  body:
+    type: json
+    content: |-
+      {
+        "id": "cm_endpoint",
+        "projectId": "cm_project",
+        "name": "failing-receiver",
+        "url": "http://localhost:4099/webhook",
+        "secret": "whsec_...",
+        "enabled": true,
+        "createdAt": "2026-11-07T00:00:00.000Z",
+        "updatedAt": "2026-11-07T00:00:00.000Z"
+      }

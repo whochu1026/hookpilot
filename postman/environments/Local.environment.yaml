@@ -1,0 +1,48 @@
+name: Local
+values:
+  - key: base_url
+    value: 'http://localhost:3001/api'
+    enabled: true
+    type: default
+    description: HookPilot API base URL
+  - key: access_token
+    value: ''
+    enabled: true
+    type: secret
+    description: JWT from login/register
+  - key: api_key
+    value: ''
+    enabled: true
+    type: secret
+    description: Project API key (raw, shown once at creation)
+  - key: project_id
+    value: ''
+    enabled: true
+    type: default
+  - key: endpoint_id
+    value: ''
+    enabled: true
+    type: default
+  - key: event_id
+    value: ''
+    enabled: true
+    type: default
+  - key: email
+    value: 'postman@hookpilot.test'
+    enabled: true
+    type: default
+  - key: password
+    value: 'password123'
+    enabled: true
+    type: secret
+  - key: receiver_url
+    value: 'http://localhost:4099/webhook'
+    enabled: true
+    type: default
+    description: failing-receiver demo URL
+  - key: idempotency_key
+    value: ''
+    enabled: true
+    type: default
+    description: Set by Ingest event pre-request script
+

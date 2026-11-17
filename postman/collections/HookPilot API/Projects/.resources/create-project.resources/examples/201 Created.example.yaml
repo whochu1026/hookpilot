@@ -1,0 +1,23 @@
+$kind: http-example
+name: 201 Created
+order: 1000
+request:
+  url: '{{base_url}}/projects'
+  method: POST
+response:
+  statusCode: 201
+  statusText: Created
+  headers:
+    - key: Content-Type
+      value: application/json
+  body:
+    type: json
+    content: |-
+      {
+        "id": "cm_project",
+        "name": "Postman Shop",
+        "description": "Webhook delivery demo project",
+        "userId": "cm_user",
+        "createdAt": "2026-11-07T00:00:00.000Z",
+        "updatedAt": "2026-11-07T00:00:00.000Z"
+      }

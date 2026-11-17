@@ -1,0 +1,21 @@
+$kind: http-request
+name: Get project stats
+order: 1000
+method: GET
+url: '{{base_url}}/projects/{{project_id}}/stats'
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test('Stats shape', function () {
+        pm.response.to.have.status(200);
+        const data = pm.response.json();
+        pm.expect(data.deliveries).to.have.property('successRate');
+        pm.expect(data.events).to.be.an('object');
+      });
+examples: ./.resources/get-stats.resources/examples
+auth:
+  type: bearer
+  credentials:
+    - key: token
+      value: '{{access_token}}'

@@ -1,0 +1,20 @@
+$kind: http-request
+name: Get event detail
+order: 3000
+method: GET
+url: '{{base_url}}/projects/{{project_id}}/events/{{event_id}}'
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test('Event detail includes deliveries', function () {
+        pm.response.to.have.status(200);
+        const data = pm.response.json();
+        pm.expect(data).to.have.property('deliveries');
+      });
+examples: ./.resources/get-event.resources/examples
+auth:
+  type: bearer
+  credentials:
+    - key: token
+      value: '{{access_token}}'

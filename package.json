@@ -1,0 +1,30 @@
+{
+  "name": "hookpilot",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Webhook Delivery Platform — reliable event delivery with retries",
+  "workspaces": [
+    "apps/*"
+  ],
+  "scripts": {
+    "dev:api": "npm run start:dev -w @hookpilot/api",
+    "dev:web": "npm run dev -w @hookpilot/web",
+    "build": "npm run build -w @hookpilot/api && npm run build -w @hookpilot/web",
+    "test": "npm run test -w @hookpilot/api",
+    "db:generate": "npm run prisma:generate -w @hookpilot/api",
+    "db:migrate": "npm run prisma:migrate -w @hookpilot/api",
+    "docker:up": "docker compose up -d",
+    "docker:down": "docker compose down",
+    "demo:receiver": "node scripts/failing-receiver.mjs",
+    "demo:retry": "node scripts/demo-retry.mjs",
+    "postman:lint": "postman collection lint \"postman/collections/HookPilot API\" && postman environment lint postman/environments",
+    "postman:run": "postman collection run \"postman/collections/HookPilot API\" -e postman/environments/Local.environment.yaml"
+  },
+  "keywords": [
+    "webhook",
+    "nestjs",
+    "bullmq",
+    "saas"
+  ],
+  "license": "MIT"
+}

@@ -1,0 +1,21 @@
+$kind: collection
+name: HookPilot API
+description: |-
+  Webhook Delivery Platform API.
+
+  Flow:
+  1. Auth → Register/Login (saves access_token)
+  2. Create project + API key + endpoint
+  3. Ingest event via X-API-Key
+  4. Inspect deliveries / stats / redeliver
+
+  For retry demo, point the endpoint at http://localhost:4099/webhook
+  (scripts/failing-receiver.mjs) and set WEBHOOK_BACKOFF_BASE_SECONDS=2.
+variables:
+  - key: base_url
+    value: '{{base_url}}'
+auth:
+  type: bearer
+  credentials:
+    - key: token
+      value: '{{access_token}}'

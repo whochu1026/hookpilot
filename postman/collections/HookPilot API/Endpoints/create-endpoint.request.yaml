@@ -1,0 +1,31 @@
+$kind: http-request
+name: Create endpoint
+order: 1000
+method: POST
+url: '{{base_url}}/projects/{{project_id}}/endpoints'
+headers:
+  - key: Content-Type
+    value: application/json
+body:
+  type: json
+  content: |-
+    {
+      "name": "failing-receiver",
+      "url": "{{receiver_url}}"
+    }
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test('Endpoint created', function () {
+        pm.expect([200, 201]).to.include(pm.response.code);
+        const data = pm.response.json();
+        pm.environment.set('endpoint_id', data.id);
+        pm.expect(data.secret).to.match(/^whsec_/);
+      });
+examples: ./.resources/create-endpoint.resources/examples
+auth:
+  type: bearer
+  credentials:
+    - key: token
+      value: '{{access_token}}'

@@ -1,0 +1,20 @@
+$kind: http-request
+name: Me
+order: 3000
+method: GET
+url: '{{base_url}}/auth/me'
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test('Me returns current user', function () {
+        pm.response.to.have.status(200);
+        const data = pm.response.json();
+        pm.expect(data.email).to.eql(pm.environment.get('email'));
+      });
+examples: ./.resources/me.resources/examples
+auth:
+  type: bearer
+  credentials:
+    - key: token
+      value: '{{access_token}}'

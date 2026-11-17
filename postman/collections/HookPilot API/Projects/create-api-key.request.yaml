@@ -1,0 +1,30 @@
+$kind: http-request
+name: Create API key
+order: 3000
+method: POST
+url: '{{base_url}}/projects/{{project_id}}/api-keys'
+headers:
+  - key: Content-Type
+    value: application/json
+body:
+  type: json
+  content: |-
+    {
+      "name": "postman-ingest"
+    }
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test('API key issued once', function () {
+        pm.expect([200, 201]).to.include(pm.response.code);
+        const data = pm.response.json();
+        pm.expect(data.apiKey).to.match(/^hp_/);
+        pm.environment.set('api_key', data.apiKey);
+      });
+examples: ./.resources/create-api-key.resources/examples
+auth:
+  type: bearer
+  credentials:
+    - key: token
+      value: '{{access_token}}'

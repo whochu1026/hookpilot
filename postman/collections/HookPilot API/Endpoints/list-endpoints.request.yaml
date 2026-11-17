@@ -1,0 +1,18 @@
+$kind: http-request
+name: List endpoints
+order: 2000
+method: GET
+url: '{{base_url}}/projects/{{project_id}}/endpoints'
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test('Lists endpoints', function () {
+        pm.response.to.have.status(200);
+        pm.expect(pm.response.json()).to.be.an('array');
+      });
+auth:
+  type: bearer
+  credentials:
+    - key: token
+      value: '{{access_token}}'

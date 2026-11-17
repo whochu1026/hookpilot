@@ -1,0 +1,23 @@
+$kind: http-example
+name: 201 Created
+order: 1000
+request:
+  url: '{{base_url}}/projects/{{project_id}}/api-keys'
+  method: POST
+response:
+  statusCode: 201
+  statusText: Created
+  headers:
+    - key: Content-Type
+      value: application/json
+  body:
+    type: json
+    content: |-
+      {
+        "id": "cm_key",
+        "name": "postman-ingest",
+        "keyPrefix": "hp_abc123",
+        "apiKey": "hp_abc123...",
+        "createdAt": "2026-11-07T00:00:00.000Z",
+        "warning": "Store this API key now. It will not be shown again."
+      }

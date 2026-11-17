@@ -1,0 +1,30 @@
+$kind: http-request
+name: Login
+order: 2000
+method: POST
+url: '{{base_url}}/auth/login'
+headers:
+  - key: Content-Type
+    value: application/json
+auth:
+  type: noauth
+body:
+  type: json
+  content: |-
+    {
+      "email": "{{email}}",
+      "password": "{{password}}"
+    }
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      const data = pm.response.json();
+      pm.test('Login returns accessToken', function () {
+        pm.expect([200, 201]).to.include(pm.response.code);
+        pm.expect(data.accessToken).to.be.a('string');
+      });
+      if (data.accessToken) {
+        pm.environment.set('access_token', data.accessToken);
+      }
+examples: ./.resources/login.resources/examples

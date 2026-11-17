@@ -1,0 +1,18 @@
+$kind: http-request
+name: Demo login
+order: 1500
+method: POST
+url: '{{base_url}}/auth/demo'
+auth:
+  type: noauth
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test('Demo login returns token', function () {
+        pm.expect([200, 201]).to.include(pm.response.code);
+        const data = pm.response.json();
+        pm.expect(data.accessToken).to.be.a('string');
+        pm.environment.set('access_token', data.accessToken);
+      });
+examples: './.resources/demo-login.resources/examples'

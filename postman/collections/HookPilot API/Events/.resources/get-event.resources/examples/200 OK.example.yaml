@@ -1,0 +1,40 @@
+$kind: http-example
+name: 200 OK
+order: 1000
+request:
+  url: '{{base_url}}/projects/{{project_id}}/events/{{event_id}}'
+  method: GET
+response:
+  statusCode: 200
+  statusText: OK
+  headers:
+    - key: Content-Type
+      value: application/json
+  body:
+    type: json
+    content: |-
+      {
+        "id": "cm_event",
+        "eventType": "order.created",
+        "status": "DELIVERED",
+        "attemptCount": 3,
+        "deliveries": [
+          {
+            "attemptNumber": 1,
+            "status": "FAILED",
+            "responseStatus": 503,
+            "errorMessage": "HTTP 503"
+          },
+          {
+            "attemptNumber": 2,
+            "status": "FAILED",
+            "responseStatus": 503,
+            "errorMessage": "HTTP 503"
+          },
+          {
+            "attemptNumber": 3,
+            "status": "SUCCESS",
+            "responseStatus": 200
+          }
+        ]
+      }

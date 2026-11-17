@@ -1,0 +1,28 @@
+$kind: http-example
+name: 200 OK
+order: 1000
+request:
+  url: '{{base_url}}/v1/events'
+  method: POST
+response:
+  statusCode: 201
+  statusText: Created
+  headers:
+    - key: Content-Type
+      value: application/json
+  body:
+    type: json
+    content: |-
+      {
+        "event": {
+          "id": "cm_event",
+          "projectId": "cm_project",
+          "endpointId": "cm_endpoint",
+          "eventType": "order.created",
+          "payload": { "orderId": "ord_postman_1", "amount": 15000 },
+          "idempotencyKey": "ord_postman_1",
+          "status": "PENDING",
+          "attemptCount": 0
+        },
+        "duplicated": false
+      }

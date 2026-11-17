@@ -1,0 +1,23 @@
+$kind: http-example
+name: 200 OK
+order: 1000
+request:
+  url: '{{base_url}}/auth/login'
+  method: POST
+response:
+  statusCode: 200
+  statusText: OK
+  headers:
+    - key: Content-Type
+      value: application/json
+  body:
+    type: json
+    content: |-
+      {
+        "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+        "user": {
+          "id": "cm_user",
+          "email": "postman@hookpilot.test",
+          "name": "Postman User"
+        }
+      }

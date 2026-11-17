@@ -1,0 +1,38 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: hookpilot-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: hookpilot
+      POSTGRES_PASSWORD: hookpilot
+      POSTGRES_DB: hookpilot
+    ports:
+      # 로컬 다른 DB와 충돌 방지 (호스트 5435)
+      - "5435:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U hookpilot -d hookpilot"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  redis:
+    image: redis:7-alpine
+    container_name: hookpilot-redis
+    restart: unless-stopped
+    ports:
+      # 로컬 다른 Redis와 충돌 방지 (호스트 6382)
+      - "6382:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+volumes:
+  postgres_data:
+  redis_data:

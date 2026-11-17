@@ -1,0 +1,40 @@
+$kind: http-request
+name: Ingest event (API key)
+order: 1000
+method: POST
+url: '{{base_url}}/v1/events'
+headers:
+  - key: Content-Type
+    value: application/json
+  - key: X-API-Key
+    value: '{{api_key}}'
+auth:
+  type: noauth
+body:
+  type: json
+  content: |-
+    {
+      "endpointId": "{{endpoint_id}}",
+      "eventType": "order.created",
+      "payload": {
+        "orderId": "{{idempotency_key}}",
+        "amount": 15000
+      },
+      "idempotencyKey": "{{idempotency_key}}"
+    }
+scripts:
+  - type: beforeRequest
+    language: text/javascript
+    code: |-
+      const key = 'ord_postman_' + Date.now();
+      pm.environment.set('idempotency_key', key);
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test('Event accepted', function () {
+        pm.expect([200, 201]).to.include(pm.response.code);
+        const data = pm.response.json();
+        pm.expect(data.event.id).to.be.a('string');
+        pm.environment.set('event_id', data.event.id);
+      });
+examples: './.resources/ingest-event.resources/examples'

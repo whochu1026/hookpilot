@@ -1,0 +1,32 @@
+$kind: http-example
+name: 200 OK
+order: 1000
+request:
+  url: '{{base_url}}/projects/{{project_id}}/stats'
+  method: GET
+response:
+  statusCode: 200
+  statusText: OK
+  headers:
+    - key: Content-Type
+      value: application/json
+  body:
+    type: json
+    content: |-
+      {
+        "events": {
+          "PENDING": 0,
+          "PROCESSING": 0,
+          "DELIVERED": 1,
+          "FAILED": 0,
+          "DEAD": 0
+        },
+        "deliveries": {
+          "total": 3,
+          "success": 1,
+          "failed": 2,
+          "successRate": 33.3,
+          "avgResponseMs": 42
+        },
+        "recentDeliveries": []
+      }

@@ -1,0 +1,31 @@
+$kind: http-request
+name: Create project
+order: 1000
+method: POST
+url: '{{base_url}}/projects'
+headers:
+  - key: Content-Type
+    value: application/json
+body:
+  type: json
+  content: |-
+    {
+      "name": "Postman Shop",
+      "description": "Webhook delivery demo project"
+    }
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test('Project created', function () {
+        pm.expect([200, 201]).to.include(pm.response.code);
+        const data = pm.response.json();
+        pm.expect(data.id).to.be.a('string');
+        pm.environment.set('project_id', data.id);
+      });
+examples: ./.resources/create-project.resources/examples
+auth:
+  type: bearer
+  credentials:
+    - key: token
+      value: '{{access_token}}'

@@ -1,0 +1,32 @@
+$kind: http-request
+name: Register
+order: 1000
+method: POST
+url: '{{base_url}}/auth/register'
+headers:
+  - key: Content-Type
+    value: application/json
+auth:
+  type: noauth
+body:
+  type: json
+  content: |-
+    {
+      "email": "{{email}}",
+      "password": "{{password}}",
+      "name": "Postman User"
+    }
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      if (pm.response.code === 201 || pm.response.code === 200) {
+        const data = pm.response.json();
+        if (data.accessToken) {
+          pm.environment.set('access_token', data.accessToken);
+        }
+      }
+      pm.test('Register returns token or conflict', function () {
+        pm.expect([200, 201, 409]).to.include(pm.response.code);
+      });
+examples: ./.resources/register.resources/examples
